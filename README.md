@@ -29,4 +29,4 @@ Initially the calls are commented, you can delete the comment and try the use of
 
 If you use gitpod you can open it here:
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/html-hello.git)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://https://github.com/fjrf16/Exercises-JS-I-.git)
