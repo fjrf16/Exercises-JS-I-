@@ -3,7 +3,6 @@ let surnames = ["10", "juan", "@12", "null", "antonioPerezDelCarmen", "abcdefght
 let escuses = ["OMG?", "What’s going on?", "How much is it?", "18", null, 'undefined', function(){}];
 let names = ["Jeferson", "Matilda", "R@fael", "1van", "Pep3", "Loquesea", "Fel1berto", "Pepit@", "D@M"];
 
-
 // Ejercicio 1: Funcion que genera una excusa aleatoria a partir de 3 arrays. Donde:
 //  - Primero se limpian los arrays de elementos que no son string.
 //  - Segundo se genera un número aleatorio para la aleatoriedad.
@@ -37,13 +36,13 @@ function getRandomInt(size)
 function cleanArray(array) {
   
   for (let index in array){
-      if (typeof(array[index]) === 'string'){
-        
-      }
-      else {
-        array.splice(index,1);
-        
-      }
+    
+    if (typeof array[index] !== 'string' && typeof array[index] !== 'number'){
+      // elimina el valor del array ya que no cumple los requisitos
+      array.splice(index,1);
+      index--; // volvemos a disminir el índice para que no se salte el siguiente
+    }
+
   }
 return array;
 }
@@ -52,146 +51,60 @@ return array;
 
 // ------------------------------------------------------------------------------------------------------------------------------------------
 
-// Ejercicio 2: Funcion que cuenta el número de repeticiones de letras de cada string de cada array
-function CountCharacter(array1, array2, array3) {
+// Ejercicio 2: Funcion que cuenta el número de repeticiones de letras de cada string de un array
+
+function CountCharacter(array) {
   
   // Se limpian de elementos que no son string
-  let arrayCh1 = cleanArray(array1);
-  let arrayCh2 = cleanArray(array2);
-  let arrayCh3 = cleanArray(array3);
+  let arrayCh = cleanArray(array);
 
-  let count = {};
-  let count2 = {};
-  let count3 = {};
-  let result = {
-    count,
-    count2,
-    count3
-  };
-
-  count = recursiveCreation(count, arrayCh1);
-
-  count2 = recursiveCreation(count2, arrayCh2);
-
-  count3 = recursiveCreation(count3, arrayCh3);
-
-
-return result;
+  let obj = {};
+  // Recorremos el array y para cada string llamamos a dinamicCreation
+  for(let i in arrayCh){
+   dinamicCreation(obj, arrayCh[i]);
+  }
+return obj;
 }
-// Funcion para la creacion recursiva de las propiedades del objeto
-function recursiveCreation(objt, array) {
 
-  let count = objt;
-  let arrayCh = array;
-
-  for (let i=0; i< arrayCh.length; i++){
- 
-    for (let j=0; j < arrayCh[i].length; j++){ // se va comprobando la eitencia de esa propiedad, en este caso letra, y si no existe se crea con 1, si si existe se incrementa la cuenta
-
-
-      if (count[arrayCh[i][j].toLowerCase()]) // Se comprueba si ya existe todo en minuscula siempre
-      {
-        count[arrayCh[i][j].toLowerCase()] = count[arrayCh[i][j].toLowerCase()] + 1; // Si ya existe se incrementa la cuenta
+// // Funcion para la creacion dinámica de las propiedades del objeto
+function dinamicCreation(objt, character) {
+  // Comparamos todo siempre en minúscula
+  character=character.toLowerCase();
+  // Recorremos el string con sus letras
+  for (let i in character) {
+      // letter guarda un caracter
+      let letter = character[i];
+      // si el objeto ya tiene se le suma 1
+      if (objt.hasOwnProperty(letter)) {
+          objt[letter] += 1;
       }
-
+      // si no la tiene se crea asignandole 1
       else {
-        count[arrayCh[i][j].toLowerCase()] = 1; // Si no existe se crea y se incializa a 1
+          objt[letter] = 1;
       }
     }
-  }
 
-
-return count;
 }
 
-
- //console.log(CountCharacter(surnames,escuses,names));
+//  console.log(CountCharacter(surnames));
 
 //------------------------------------------------------------------------
 
 // Ejercicio 3: Función que busque en el array y si existe una coincidencia en cada string 
 
-function NoRepeat(array1, array2, array3, SandD) {
+function NoRepeat(array1) {
 
 // primero limpiamos los arrays y dejamos con strings
-  let CleanArray1 = cleanArray(array1);
-  let CleanArray2 = cleanArray(array2);
-  let CleanArray3 = cleanArray(array3);
-
-// vamos comparando cada string y vemos si tiene repeticiones
-// para ello cogemos un string y lo dividimos en caracteres
-  let chain1 = division(CleanArray1);
-  let chain2 = division(CleanArray2);
-  let chain3 = division(CleanArray3);
-
-  //Se ven si se repiten los caracteres en cada string del array y se eliminan repeticiones
-  let NoRepeatArray1 = NoRepeatLoop(chain1, SandD);
-  let NoRepeatArray2 = NoRepeatLoop(chain2, SandD);
-  let NoRepeatArray3 = NoRepeatLoop(chain3, SandD);
-
-  // Se colocan los elementos como estaban originalmente
-  let FinalArray1 = changeLikeOriginal(NoRepeatArray1);
-  let FinalArray2 = changeLikeOriginal(NoRepeatArray2);
-  let FinalArray3 = changeLikeOriginal(NoRepeatArray3);
-
-  let ArrayWithoutReps = [FinalArray1, FinalArray2, FinalArray3];
-
- //console.log(FinalArray1)
- //console.log(FinalArray2)
- //console.log(FinalArray3)
-
-  return ArrayWithoutReps;
+  let Array=cleanArray(array1);
+ 
+  let withoutReps = new Set(Array);
+  
+  const arrayWithoutRep = [...withoutReps];
+  console.log(arrayWithoutRep)
+  return arrayWithoutRep;
 }
 
-// Cogemos un string y lo dividimos en caracteres mediante esta función para poder analizar caracter a caracter
-function division(array) {
-  
-  let cadena=[];
-  for (let i in array){
-    cadena[i] = array[i].split('');
-  
-  }
-
-return cadena;
-}
-
-// Funcion para el bucle de todas las cadenas del array y su limpieza de repetidos. Llama a searchAndDestroy y limpia de repetidos
-function NoRepeatLoop(chain, SandD) {
-  
-  let NoRepeatCharacter = []; // Creamos el array para completar con no repeticiones
-//Ahora dentro de cada cadena del array vemos si se repiten los caracteres:
-  let i=0;
-  while(i < chain.length) {
-
-     NoRepeatCharacter[i] = SandD(chain[i]); // se limpia de repeticiones para cada cadena del array
-    i++;
-  }
-
-  return NoRepeatCharacter; // Finalmente se tiene el array limpio conformado por sus cadenas limpias de repeticiones
-}
-
-// Función que hace la limpieza bruta de repeticiones de una cadena dada. Se cogen todas las cadenas de una array para limpiarlas una a una 
-function searchAndDestroy(chain) {
-  
-  let noRepeatsSet = new Set(chain);
-
-  let noRepeatsChain = [...noRepeatsSet]; // Se crea la cadena del array sin repeticiones
-
-return noRepeatsChain;
-}
-
-// Función que cambia y une todos los caracteres para que quede como originalmente pero sin repeticiones
-function changeLikeOriginal(array) {
-  
-  let LikeOriginal = [""];
-  for (let i in array){
-    LikeOriginal[i] = array[i].join(''); // Se unen cadena a cadena para conformar el original sin repeticiones
-
-  }
-return LikeOriginal;
-}
-
-//console.log(NoRepeat(surnames, escuses, names, searchAndDestroy));
+// console.log(NoRepeat(prueba))
 
 // -------------------------------------------------------------------------------
 
