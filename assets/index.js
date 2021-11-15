@@ -52,7 +52,7 @@ function cleanArray(array) {
 
 // Ejercicio 2: Funcion que cuenta el número de repeticiones de letras de cada string de un array
 
-function CountCharacter(array) {
+function countCharacter(array) {
 
   // Se limpian de elementos que no son string
   let arrayCh = cleanArray(array);
@@ -85,25 +85,25 @@ function dinamicCreation(objt, character) {
 
 }
 
-//  console.log(CountCharacter(surnames));
+//  console.log(countCharacter(surnames));
 
 //------------------------------------------------------------------------
 
 // Ejercicio 3: Función que busque en el array y si existe una coincidencia en cada string 
 
-function NoRepeat(array1) {
+function noRepeat(array1) {
 
   // primero limpiamos los arrays y dejamos con strings
-  let Array = cleanArray(array1);
+  let array = cleanArray(array1);
 
-  let withoutReps = new Set(Array);
+  let withoutReps = new Set(array);
 
   const arrayWithoutRep = [...withoutReps];
   console.log(arrayWithoutRep)
   return arrayWithoutRep;
 }
 
-// console.log(NoRepeat(prueba))
+// console.log(noRepeat(prueba))
 
 // -------------------------------------------------------------------------------
 
